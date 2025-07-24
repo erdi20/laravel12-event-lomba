@@ -8,8 +8,9 @@ class Event extends Model
 {
     protected $table = 'events';
 
-    protected $filable = [
+    protected $fillable = [
         'user_id',
+        'name',
         'slug',
         'description',
         'start_date',
@@ -34,8 +35,10 @@ class Event extends Model
         return $this->hasMany(Registration::class);
     }
 
-    public function Category()
+    public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this
+            ->belongsToMany(Category::class, 'event_categories')
+            ->withTimestamps();  // Jika ingin menyimpan timestamp
     }
 }
