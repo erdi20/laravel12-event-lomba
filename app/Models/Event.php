@@ -25,6 +25,7 @@ class Event extends Model
         'poster_img',
     ];
 
+    // relasi
     public function User()
     {
         return $this->belongsTo(User::class);
@@ -41,4 +42,17 @@ class Event extends Model
             ->belongsToMany(Category::class, 'event_categories')
             ->withTimestamps();  // Jika ingin menyimpan timestamp
     }
+
+    // scope
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'Published');
+    }
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'registration_open_date' => 'datetime',
+        'registration_close_date' => 'datetime',
+    ];
 }

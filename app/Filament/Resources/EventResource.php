@@ -6,6 +6,7 @@ use App\Filament\Resources\EventResource\Pages;
 use App\Filament\Resources\EventResource\RelationManagers;
 use App\Models\Event;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -160,12 +161,9 @@ class EventResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('price')
                                     ->label('Harga Tiket')
-                                    ->required()
                                     ->numeric()
-                                    ->prefix('Rp')
-                                    ->mask(RawJs::make("\$money(\$input, ',', '.', 0)"))
-                                    ->placeholder('0')
-                                    ->columnSpan(1),
+                                    ->required()
+                                    ->prefix('Rp'),
                                 Forms\Components\TextInput::make('max_participants')
                                     ->label('Kapasitas Maksimal')
                                     ->numeric()
