@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registration extends Model
 {
     protected $table = 'registrations';
+
     protected $fillable = [
         'event_id',
         'name',
@@ -17,12 +18,18 @@ class Registration extends Model
         'status',
         'payment_id'
     ];
+
     public function Event()
     {
         return $this->belongsTo(Event::class);
     }
+
     public function Payment()
     {
         return $this->hasOne(Payment::class);
     }
+
+    protected $casts = [
+        'registration_date' => 'datetime',
+    ];
 }

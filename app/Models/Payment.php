@@ -23,5 +23,9 @@ class Payment extends Model
     {
         return $this->belongsTo(Registration::class);
     }
-    
+
+    protected $casts = [
+        'transaction_time' => 'datetime',
+        'json_response' => 'json',
+    ];
 }

@@ -1,7 +1,7 @@
 <header class="bg-gradient-to-r from-teal-800 to-teal-600 px-6 py-4 text-white shadow-lg">
     <div class="container mx-auto flex flex-col items-center justify-between md:flex-row">
         <div class="mb-4 flex items-center space-x-8 md:mb-0">
-            <a href="#" class="bg-gradient-to-r from-amber-300 to-amber-200 bg-clip-text text-3xl font-bold tracking-tighter text-transparent">EventKu</a>
+            <a href="{{ url('/') }}" class="bg-gradient-to-r from-amber-300 to-amber-200 bg-clip-text text-3xl font-bold tracking-tighter text-transparent">EventKu</a>
             <nav class="hidden space-x-8 text-lg md:flex">
                 <a href="#" class="font-medium transition-colors duration-200 hover:text-amber-200">Acara</a>
                 <a href="#" class="font-medium transition-colors duration-200 hover:text-amber-200">Atraksi</a>

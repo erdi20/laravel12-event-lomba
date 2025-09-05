@@ -306,7 +306,7 @@
                 <div class="sticky top-4 rounded-2xl bg-white p-6 shadow-lg">
                     <h3 class="mb-4 text-lg font-bold text-gray-900">Daftar Lomba</h3>
 
-                    <form action="" method="POST">
+                    <form action="{{ route('registrations.store') }}" method="POST">
                         @csrf
 
                         <!-- Hidden: Event ID -->

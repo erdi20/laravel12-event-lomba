@@ -12,6 +12,7 @@
     <x-partial.navbar />
 
     {{ $slot }}
+    {{ $script ?? '' }}
 </body>
 
 </html>
