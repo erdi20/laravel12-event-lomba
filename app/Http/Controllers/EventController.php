@@ -12,7 +12,11 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event::published()
+            // ->with('user')
+            ->latest()
+            ->get();
+        return view('pages.event', compact('events'));
     }
 
     /**

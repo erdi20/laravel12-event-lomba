@@ -3,15 +3,14 @@
         <div class="mb-4 flex items-center space-x-8 md:mb-0">
             <a href="{{ url('/') }}" class="bg-gradient-to-r from-amber-300 to-amber-200 bg-clip-text text-3xl font-bold tracking-tighter text-transparent">EventKu</a>
             <nav class="hidden space-x-8 text-lg md:flex">
-                <a href="#" class="font-medium transition-colors duration-200 hover:text-amber-200">Acara</a>
-                <a href="#" class="font-medium transition-colors duration-200 hover:text-amber-200">Atraksi</a>
+                <a href="{{ url('/events') }}" class="font-medium transition-colors duration-200 hover:text-amber-200">Acara</a>
                 <a href="#" class="font-medium transition-colors duration-200 hover:text-amber-200">Tentang</a>
             </nav>
         </div>
 
         <div class="mx-auto w-full max-w-2xl flex-grow px-4 md:w-auto md:px-0">
             <div class="relative">
-                <input type="text" placeholder="Cari event dan atraksi di sini..." class="w-full rounded-full py-3 pl-12 pr-6 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                <input type="text" placeholder="Cari event dan atraksi di sini..." class="w-full rounded-full bg-white py-3 pl-12 pr-6 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                 <svg class="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>

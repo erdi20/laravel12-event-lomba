@@ -16,13 +16,12 @@ class MidtransNotificationController extends Controller
         $payload = $request->getContent();
         $notification = json_decode($payload);
 
-        // Validasi signature key (penting untuk keamanan!)
         $signatureKey = hash('sha512', $notification->order_id . $notification->status_code . $notification->gross_amount . config('midtrans.server_key'));
         if ($signatureKey != $notification->signature_key) {
             return response()->json(['message' => 'Invalid signature key'], 403);
         }
 
-        // Cari payment di database
+        // Cari payment
         $payment = Payment::where('midtrans_order_id', $notification->order_id)->first();
         if (!$payment) {
             return response()->json(['message' => 'Payment not found'], 404);
@@ -33,7 +32,7 @@ class MidtransNotificationController extends Controller
             'transaction_status' => $notification->transaction_status,
             'payment_method' => $notification->payment_type,
             'transaction_time' => $notification->transaction_time,
-            'json_response' => $payload,  // Simpan respons lengkap untuk audit
+            'json_response' => $payload,
         ]);
 
         // Update status pendaftaran
