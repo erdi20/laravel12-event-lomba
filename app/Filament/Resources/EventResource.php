@@ -2,25 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\EventResource\RelationManagers\RegistrationsRelationManager;
+use App\Filament\Resources\EventResource\Pages;
+use App\Filament\Resources\EventResource\RelationManagers;
 use App\Models\Event;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Support\RawJs;
-use Illuminate\Support\Str;
-use Filament\Resources\Resource;
-use Illuminate\Support\HtmlString;
+use App\Models\Registration;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Table;
+use Filament\Forms;
+use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\EventResource\Pages;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\EventResource\RelationManagers;
-use App\Filament\Resources\EventResource\RelationManagers\RegistrationsRelationManager;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 class EventResource extends Resource
 {
@@ -173,40 +176,38 @@ class EventResource extends Resource
                                     ->live()
                                     ->helperText('Jumlah maksimal peserta yang dapat mendaftar')
                                     ->columnSpan(1),
-                                Forms\Components\TextInput::make('current_participants')
+                                Placeholder::make('current_participants')
                                     ->label('Peserta Saat Ini')
-                                    ->required()
-                                    ->numeric()
-                                    ->default(0)
-                                    ->minValue(0)
-                                    ->maxValue(fn(Get $get) => $get('max_participants') ?: 9999)
-                                    ->readOnly()
-                                    ->helperText('Otomatis terupdate saat ada registrasi')
-                                    ->columnSpan(1),
+                                    ->content(function (?Event $record) {
+                                        $paidCount = $record?->registrations()->where('status', 'paid')->count() ?? 0;
+                                        return $paidCount;
+                                    })
+                                    ->helperText('Otomatis terupdate saat ada registrasi yang dibayar.'),
                             ]),
                         // Progress bar untuk kapasitas
-                        Forms\Components\Placeholder::make('capacity_progress')
+                        Placeholder::make('capacity_progress')
                             ->label('Tingkat Okupansi')
-                            ->content(function (Get $get) {
-                                $current = $get('current_participants') ?: 0;
+                            ->content(function (Get $get, ?Model $record) {
+                                // Ambil jumlah peserta yang sudah dibayar dari relasi
+                                $current = $record?->registrations()->where('status', 'paid')->count() ?? 0;
                                 $max = $get('max_participants') ?: 0;
 
-                                if ($max == 0)
+                                if ($max == 0) {
                                     return 'Unlimited';
+                                }
 
                                 $percentage = round(($current / $max) * 100, 1);
 
                                 return new HtmlString("
-                                <div class='w-full bg-gray-200 rounded-full h-2.5 mb-2'>
-                                    <div class='bg-blue-600 h-2.5 rounded-full' style='width: {$percentage}%'></div>
-                                </div>
-                                <span class='text-sm text-gray-600'>{$current} dari {$max} peserta ({$percentage}%)</span>
+                            <div class='w-full bg-gray-200 rounded-full h-2.5 mb-2'>
+                                <div class='bg-blue-600 h-2.5 rounded-full' style='width: {$percentage}%'></div>
+                            </div>
+                            <span class='text-sm text-gray-600'>{$current} dari {$max} peserta ({$percentage}%)</span>
                             ");
                             })
                             ->visible(fn(Get $get) => $get('max_participants') > 0),
                     ])
                     ->collapsible(),
-                // Section 4: Media & Tampilan
                 Forms\Components\Section::make('Media & Tampilan')
                     ->description('Upload poster dan media pendukung event')
                     ->schema([
