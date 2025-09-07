@@ -16,7 +16,9 @@
         <!-- Event Header -->
         <div class="mb-8">
             <div class="flex items-center space-x-4">
-                <span class="rounded-full bg-purple-100 px-4 py-1 text-sm font-semibold text-purple-800">Konser</span>
+                @foreach ($event->categories as $item)
+                    <span class="rounded-full bg-purple-100 px-4 py-1 text-sm font-semibold text-purple-800">{{ $item->name }}</span>
+                @endforeach
                 <span class="flex items-center text-sm text-gray-600">
                     <svg class="mr-1 h-4 w-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
@@ -124,11 +126,12 @@
                             <div>
                                 <h3 class="mb-1 text-lg font-semibold text-gray-900">Kuota Peserta</h3>
                                 <p class="text-gray-600">
-                                    @if ($event->max_participants)
-                                        {{ $event->current_participants }} dari {{ $event->max_participants }}
-                                    @else
+                                    {{-- <p>Jumlah Peserta Paid: {{ $event->register_paid_count }}</p> --}}
+                                    {{-- @if ($event->max_participants) --}}
+                                    {{ $event->register_paid_count }} dari {{ $event->max_participants }}
+                                    {{-- @else
                                         Tidak Terbatas
-                                    @endif
+                                    @endif --}}
                                 </p>
                             </div>
                         </div>
@@ -331,9 +334,15 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="w-full rounded-full bg-gradient-to-r from-amber-500 to-amber-600 py-3 font-bold text-white shadow-lg transition hover:from-amber-600 hover:to-amber-700 hover:shadow-xl">
-                            Daftar & Lanjut ke Pembayaran
-                        </button>
+                        @if ($event->register_paid_count >= $event->max_participants)
+                            <div class="text-center">
+                                <p class="text-danger-600">Pendaftaran sudah penuh</p>
+                            </div>
+                        @else
+                            <button type="submit" class="w-full rounded-full bg-gradient-to-r from-amber-500 to-amber-600 py-3 font-bold text-white shadow-lg transition hover:from-amber-600 hover:to-amber-700 hover:shadow-xl">
+                                Daftar & Lanjut ke Pembayaran
+                            </button>
+                        @endif
                     </form>
 
                     <div class="mt-4 text-center text-sm text-gray-500">

@@ -121,7 +121,6 @@ class EventResource extends Resource
                                     ->required()
                                     ->native(false)
                                     ->displayFormat('d/m/Y H:i')
-                                    ->minDate(now())
                                     // ->live()
                                     // ->afterStateUpdated(function (Set $set, ?string $state) {
                                     //     if ($state) {
@@ -144,7 +143,6 @@ class EventResource extends Resource
                                     ->required()
                                     ->native(false)
                                     ->displayFormat('d/m/Y H:i')
-                                    ->default(now())
                                     // ->maxDate(fn(Get $get) => $get('start_date'))
                                     ->columnSpan(1),
                                 Forms\Components\DateTimePicker::make('registration_close_date')

@@ -40,8 +40,9 @@ class EventController extends Controller
      */
     public function show($slug)
     {
-        $event = Event::where('slug', $slug)->first();
-        return view('pages.detail-event', \compact('event'));
+        // $register = Event::RegisterPaid()->get();
+        $event = Event::where('slug', $slug)->RegisterPaid()->first();
+        return view('pages.detail-event', \compact('event', ));
     }
 
     /**
